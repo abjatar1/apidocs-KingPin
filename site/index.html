@@ -2,12 +2,12 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>KingPin API Documentation</title>
+    <title>KingPin API – Full Route Documentation</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style>
       :root {
         --bg: #020617;
-        --bg-alt: #020819;
+        --bg-alt: #020617;
         --bg-card: #020617;
         --border-subtle: rgba(148, 163, 184, 0.18);
         --accent: #0ea5e9;
@@ -179,7 +179,7 @@
 
       .main {
         padding: 28px 30px 40px;
-        max-width: 980px;
+        max-width: 1100px;
         margin: 0 auto;
       }
 
@@ -312,7 +312,7 @@
 
       .card-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
         gap: 14px;
         margin-top: 10px;
       }
@@ -382,12 +382,6 @@
         background: radial-gradient(circle at top left, rgba(239, 68, 68, 0.2), transparent);
       }
 
-      .badge-patch {
-        border-color: rgba(168, 85, 247, 0.5);
-        color: var(--badge-patch);
-        background: radial-gradient(circle at top left, rgba(168, 85, 247, 0.2), transparent);
-      }
-
       .endpoint-path {
         font-family: SFMono-Regular, Menlo, Monaco, "Roboto Mono", ui-monospace,
           monospace;
@@ -413,7 +407,7 @@
         display: flex;
         flex-wrap: wrap;
         gap: 6px;
-        margin-bottom: 4px;
+        margin-bottom: 6px;
       }
 
       .pill {
@@ -467,10 +461,6 @@
         max-height: 260px;
       }
 
-      code {
-        font-family: inherit;
-      }
-
       .small {
         font-size: 11px;
       }
@@ -492,6 +482,61 @@
         top: -72px;
         visibility: hidden;
       }
+
+      .status-list {
+        list-style: none;
+        padding-left: 0;
+        margin: 4px 0 0;
+      }
+
+      .status-item {
+        margin-bottom: 4px;
+      }
+
+      .status-code {
+        font-weight: 600;
+        font-size: 11px;
+        padding: 1px 6px;
+        border-radius: 999px;
+        border: 1px solid rgba(148, 163, 184, 0.35);
+        margin-right: 6px;
+      }
+
+      .status-code.ok {
+        border-color: rgba(34, 197, 94, 0.7);
+        color: #bbf7d0;
+      }
+
+      .status-code.err {
+        border-color: rgba(239, 68, 68, 0.7);
+        color: #fecaca;
+      }
+
+      .status-code.info {
+        border-color: rgba(56, 189, 248, 0.7);
+        color: #bae6fd;
+      }
+
+      .status-body {
+        display: block;
+        margin-left: 4px;
+        font-size: 11px;
+        color: var(--text-soft);
+      }
+
+      code {
+        font-family: SFMono-Regular, Menlo, Monaco, "Roboto Mono", ui-monospace,
+          monospace;
+        font-size: 11px;
+      }
+
+      .badge-shared {
+        font-size: 10px;
+        padding: 1px 6px;
+        border-radius: 999px;
+        border: 1px dashed rgba(148, 163, 184, 0.4);
+        color: var(--text-soft);
+      }
     </style>
   </head>
   <body>
@@ -502,7 +547,7 @@
           <div class="brand-icon">KP</div>
           <div>
             <div class="brand-text-title">KingPin API</div>
-            <div class="brand-text-sub">Teams · Players · Matches · Accounts</div>
+            <div class="brand-text-sub">Full Route Reference</div>
           </div>
         </div>
 
@@ -513,6 +558,12 @@
               <a href="#intro" class="nav-link">
                 <span>Introduction</span>
                 <span class="nav-badge">v1</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#shared-errors" class="nav-link">
+                <span>Shared Errors</span>
+                <span class="nav-kbd">Auth</span>
               </a>
             </li>
             <li class="nav-item">
@@ -530,7 +581,7 @@
             <li class="nav-item">
               <a href="#auth-accounts" class="nav-link">
                 <span>Auth &amp; Accounts</span>
-                <span class="nav-badge">7 routes</span>
+                <span class="nav-badge">8 routes</span>
               </a>
             </li>
             <li class="nav-item">
@@ -563,15 +614,9 @@
                 <span class="nav-badge">3 routes</span>
               </a>
             </li>
-          </ul>
-        </div>
-
-        <div class="nav-section">
-          <div class="nav-section-title">Misc</div>
-          <ul class="nav-list">
             <li class="nav-item">
               <a href="#misc" class="nav-link">
-                <span>Other Endpoints</span>
+                <span>Misc</span>
                 <span class="nav-badge">3 routes</span>
               </a>
             </li>
@@ -591,20 +636,20 @@
         <section class="hero">
           <div class="hero-main">
             <div class="hero-eyebrow">KingPin backend</div>
-            <h1 class="hero-title">REST API for teams, players &amp; matches</h1>
+            <h1 class="hero-title">Complete REST API Reference</h1>
             <p class="hero-sub">
-              This service exposes endpoints to manage accounts, teams, players and bowling
-              matches. All data is stored in MongoDB through a simple in-memory cache and
-              persisted with <code>db.saveAll()</code>.
+              Every route, body, success response and error response for the current
+              Express app implementation. Use this as the canonical contract for the
+              frontend and for debugging.
             </p>
             <div class="hero-chip-row">
               <div class="chip">
                 <span class="chip-dot"></span>
                 Express + Node.js
               </div>
-              <div class="chip">Auth: password in request body</div>
-              <div class="chip">JSON over HTTP</div>
-              <div class="chip">Mongo-backed data store</div>
+              <div class="chip">Auth: password in JSON body</div>
+              <div class="chip">Storage: MongoDB via <code>db.loadAll/saveAll</code></div>
+              <div class="chip">CORS: <code>*</code> allowed</div>
             </div>
           </div>
           <div class="hero-meta">
@@ -612,7 +657,113 @@
             <pre><code>npm install
 node server.js
 
-GET / -&gt; "Hello World!"</code></pre>
+GET / → "Hello World!"</code></pre>
+          </div>
+        </section>
+
+        <!-- SHARED ERRORS -->
+        <div id="shared-errors" class="anchor"></div>
+        <section>
+          <div class="section-heading">
+            <h2>Shared error formats</h2>
+            <small>These appear on multiple routes</small>
+          </div>
+          <div class="section-body">
+            <p class="small muted">
+              Many routes reuse the same validation / ownership helpers. To avoid repetition,
+              these shared errors are referenced in each route card with
+              <span class="badge-shared">Shared auth/ownership errors</span>.
+            </p>
+
+            <div class="card-grid">
+              <div class="card">
+                <div class="card-header">
+                  <h3 class="card-title">Auth: <code>requireValidPassword</code></h3>
+                  <span class="badge badge-post">Middleware</span>
+                </div>
+                <p class="endpoint-desc">
+                  Used on routes that require the user's current password in the JSON body.
+                  Reads <code>req.params.userId</code>.
+                </p>
+                <ul class="status-list">
+                  <li class="status-item">
+                    <span class="status-code err">400</span>
+                    <span class="status-body">
+                      <strong>Missing password</strong><br />
+                      JSON body omits both <code>password</code> and
+                      <code>currentPassword</code>:
+                      <code>{"error":"password is required in request body"}</code>
+                    </span>
+                  </li>
+                  <li class="status-item">
+                    <span class="status-code err">401</span>
+                    <span class="status-body">
+                      <strong>Invalid password</strong><br />
+                      Hash check fails or user not found:
+                      <code>{"error":"invalid password"}</code>
+                    </span>
+                  </li>
+                </ul>
+              </div>
+
+              <div class="card">
+                <div class="card-header">
+                  <h3 class="card-title">
+                    Ownership: <code>ensureUserAndTeam</code>
+                  </h3>
+                  <span class="badge badge-get">Helper</span>
+                </div>
+                <p class="endpoint-desc">
+                  Used on team / player / match routes to validate that the given
+                  <code>userId</code> exists and owns the specified <code>teamId</code>.
+                </p>
+                <ul class="status-list">
+                  <li class="status-item">
+                    <span class="status-code err">404</span>
+                    <span class="status-body">
+                      <strong>User not found</strong><br />
+                      <code>{"error":"user not found"}</code>
+                    </span>
+                  </li>
+                  <li class="status-item">
+                    <span class="status-code err">404</span>
+                    <span class="status-body">
+                      <strong>Team not found</strong><br />
+                      <code>{"error":"team not found"}</code>
+                    </span>
+                  </li>
+                  <li class="status-item">
+                    <span class="status-code err">403</span>
+                    <span class="status-body">
+                      <strong>Team does not belong to user</strong><br />
+                      <code>{"error":"forbidden: team does not belong to user"}</code>
+                    </span>
+                  </li>
+                </ul>
+              </div>
+
+              <div class="card">
+                <div class="card-header">
+                  <h3 class="card-title">CORS &amp; JSON</h3>
+                  <span class="badge badge-get">Global</span>
+                </div>
+                <p class="endpoint-desc">
+                  All routes use <code>express.json()</code> and global CORS middleware:
+                </p>
+                <ul class="status-list">
+                  <li class="status-item">
+                    <span class="status-code info">OPTIONS 204</span>
+                    <span class="status-body">
+                      Preflight requests are answered with no body and headers:<br />
+                      <code>Access-Control-Allow-Origin: *</code><br />
+                      <code>Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS, PATCH</code
+                      ><br />
+                      <code>Access-Control-Allow-Headers: Content-Type, Authorization</code>
+                    </span>
+                  </li>
+                </ul>
+              </div>
+            </div>
           </div>
         </section>
 
@@ -621,25 +772,26 @@ GET / -&gt; "Hello World!"</code></pre>
         <section>
           <div class="section-heading">
             <h2>Schemas</h2>
-            <small>Backing shapes for users, teams, players &amp; matches</small>
+            <small>Current in-memory shapes (will change)</small>
           </div>
           <div class="section-body">
             <p>
-              These are the informal JSON structures used internally. Fields marked with
-              <code>/* internal */</code> are not exposed on public responses.
+              Internal schemas used in the implementation. Public responses omit sensitive
+              fields via <code>publicUser</code>, <code>publicTeam</code>,
+              <code>publicPlayer</code>, and <code>publicMatch</code>.
             </p>
 
-            <div class="subtitle">Core objects</div>
+            <div class="subtitle">UserSchema</div>
             <div class="schema-grid">
               <div class="card">
                 <div class="card-header">
-                  <h3 class="card-title">UserSchema</h3>
-                  <span class="tag-output">Stored as <code>users[id]</code></span>
+                  <h3 class="card-title">Internal</h3>
+                  <span class="tag-output">Stored as <code>users[userId]</code></span>
                 </div>
                 <pre><code>{
   userId: string,
   email: string,
-  password: string,        // bcrypt hash
+  password: string,           // bcrypt hash
   username: string,
   displayName: string,
   teamIds: { [teamId: string]: true },
@@ -647,10 +799,29 @@ GET / -&gt; "Hello World!"</code></pre>
   resetTokenExpiry: number | null
 }</code></pre>
               </div>
-
               <div class="card">
                 <div class="card-header">
-                  <h3 class="card-title">TeamSchema</h3>
+                  <h3 class="card-title">Public (API)</h3>
+                  <span class="tag-output"><code>publicUser(user)</code></span>
+                </div>
+                <pre><code>{
+  userId: string,
+  email: string,
+  username: string,
+  displayName: string,
+  teamIds: { [teamId: string]: true },
+  resetToken?: undefined,
+  resetTokenExpiry?: undefined,
+  password?: undefined
+}</code></pre>
+              </div>
+            </div>
+
+            <div class="subtitle">TeamSchema</div>
+            <div class="schema-grid">
+              <div class="card">
+                <div class="card-header">
+                  <h3 class="card-title">Team</h3>
                   <span class="tag-output">Stored as <code>teams[teamId]</code></span>
                 </div>
                 <pre><code>{
@@ -662,10 +833,9 @@ GET / -&gt; "Hello World!"</code></pre>
   matchIds: { [matchId: string]: true }
 }</code></pre>
               </div>
-
               <div class="card">
                 <div class="card-header">
-                  <h3 class="card-title">PlayerSchema</h3>
+                  <h3 class="card-title">Player</h3>
                   <span class="tag-output">Stored as <code>players[playerId]</code></span>
                 </div>
                 <pre><code>{
@@ -676,10 +846,9 @@ GET / -&gt; "Hello World!"</code></pre>
   graduationYear: number | null
 }</code></pre>
               </div>
-
               <div class="card">
                 <div class="card-header">
-                  <h3 class="card-title">MatchSchema</h3>
+                  <h3 class="card-title">Match</h3>
                   <span class="tag-output">Stored as <code>matches[matchId]</code></span>
                 </div>
                 <pre><code>{
@@ -708,18 +877,11 @@ GET / -&gt; "Hello World!"</code></pre>
         <section>
           <div class="section-heading">
             <h2>Auth &amp; Accounts</h2>
-            <small>Account lifecycle &amp; profile management</small>
+            <small>Account creation, login, profile &amp; deletion</small>
           </div>
           <div class="section-body">
-            <p>
-              Authentication is done via email + password login. For protected routes, the
-              current password is sent in the JSON body (<code>password</code> or
-              <code>currentPassword</code>) and validated with
-              <code>requireValidPassword</code>.
-            </p>
-
             <div class="card-grid">
-              <!-- Create account -->
+              <!-- POST /accounts -->
               <div class="card">
                 <div class="card-header">
                   <h3 class="card-title">Create account</h3>
@@ -729,36 +891,62 @@ GET / -&gt; "Hello World!"</code></pre>
                   <span>/accounts</span>
                 </div>
                 <p class="endpoint-desc">
-                  Registers a new user and sends a welcome email. Password is stored as a bcrypt
-                  hash.
+                  Registers a new user, hashes password and sends a welcome email.
                 </p>
                 <div class="pill-row">
-                  <span class="pill pill-req">email</span>
-                  <span class="pill pill-req">password (≥ 8 chars)</span>
-                  <span class="pill pill-req">username</span>
-                  <span class="pill">displayName (optional)</span>
+                  <span class="pill pill-req">Body: email (string, valid)</span>
+                  <span class="pill pill-req">Body: password (string, ≥ 8)</span>
+                  <span class="pill pill-req">Body: username (string)</span>
+                  <span class="pill">Body: displayName (string, optional)</span>
                 </div>
-                <pre><code>POST /accounts
+                <pre><code>Request body
 {
   "email": "user@example.com",
   "password": "super-secure-password",
   "username": "nathan",
   "displayName": "Nathan"
-}
-
-201 Created
-{
-  "user": {
-    "userId": "uuid",
-    "email": "user@example.com",
-    "username": "nathan",
-    "displayName": "Nathan",
-    "teamIds": {}
-  }
 }</code></pre>
+                <ul class="status-list">
+                  <li class="status-item">
+                    <span class="status-code ok">201</span>
+                    <span class="status-body">
+                      <strong>Account created</strong><br />
+                      <code>{"user": { ...publicUser }}</code>
+                    </span>
+                  </li>
+                  <li class="status-item">
+                    <span class="status-code err">400</span>
+                    <span class="status-body">
+                      Missing required fields:
+                      <code>{"error":"email, password and username are required"}</code><br />
+                      Invalid email:
+                      <code>{"error":"invalid email format"}</code><br />
+                      Short password:
+                      <code>{"error":"password must be at least 8 characters"}</code>
+                    </span>
+                  </li>
+                  <li class="status-item">
+                    <span class="status-code err">409</span>
+                    <span class="status-body">
+                      Pending concurrent signup:
+                      <code>{"error":"email or username already in use"}</code><br />
+                      Email already exists:
+                      <code>{"error":"email already in use"}</code><br />
+                      Username already exists:
+                      <code>{"error":"username already in use"}</code>
+                    </span>
+                  </li>
+                  <li class="status-item">
+                    <span class="status-code err">500</span>
+                    <span class="status-body">
+                      Internal DB/save error:
+                      <code>{"error":"Internal server error"}</code>
+                    </span>
+                  </li>
+                </ul>
               </div>
 
-              <!-- Login -->
+              <!-- POST /auth/login -->
               <div class="card">
                 <div class="card-header">
                   <h3 class="card-title">Login</h3>
@@ -768,41 +956,51 @@ GET / -&gt; "Hello World!"</code></pre>
                   <span>/auth/login</span>
                 </div>
                 <p class="endpoint-desc">
-                  Basic UI login. Returns a boolean flag and public user info; does not create a
-                  session or token.
+                  Verifies email + password. No sessions/tokens are created; used mainly for
+                  UI login.
                 </p>
                 <div class="pill-row">
-                  <span class="pill pill-req">email</span>
-                  <span class="pill pill-req">password</span>
+                  <span class="pill pill-req">Body: email (string)</span>
+                  <span class="pill pill-req">Body: password (string)</span>
                 </div>
-                <pre><code>POST /auth/login
+                <pre><code>Request body
 {
   "email": "user@example.com",
   "password": "super-secure-password"
-}
-
-200 OK
-{ "ok": true, "user": { ...publicUser } }</code></pre>
+}</code></pre>
+                <ul class="status-list">
+                  <li class="status-item">
+                    <span class="status-code ok">200</span>
+                    <span class="status-body">
+                      Valid credentials:
+                      <code>{"ok":true,"user":{...publicUser}}</code>
+                    </span>
+                  </li>
+                  <li class="status-item">
+                    <span class="status-code err">400</span>
+                    <span class="status-body">
+                      Missing email or password:
+                      <code>{"ok":false,"error":"email and password required"}</code>
+                    </span>
+                  </li>
+                  <li class="status-item">
+                    <span class="status-code err">401</span>
+                    <span class="status-body">
+                      User not found or password mismatch:
+                      <code>{"ok":false,"error":"invalid credentials"}</code>
+                    </span>
+                  </li>
+                  <li class="status-item">
+                    <span class="status-code err">500</span>
+                    <span class="status-body">
+                      bcrypt or internal error:
+                      <code>{"ok":false,"error":"internal error"}</code>
+                    </span>
+                  </li>
+                </ul>
               </div>
 
-              <!-- Get account -->
-              <div class="card">
-                <div class="card-header">
-                  <h3 class="card-title">Get account (public view)</h3>
-                  <span class="badge badge-get">GET</span>
-                </div>
-                <div class="endpoint-path">
-                  <span>/accounts/:userId</span>
-                </div>
-                <p class="endpoint-desc">
-                  Returns the public view of a user (no password or reset token fields).
-                </p>
-                <div class="pill-row">
-                  <span class="pill">Public</span>
-                </div>
-              </div>
-
-              <!-- Change password -->
+              <!-- POST /accounts/:userId/password -->
               <div class="card">
                 <div class="card-header">
                   <h3 class="card-title">Change password</h3>
@@ -812,21 +1010,47 @@ GET / -&gt; "Hello World!"</code></pre>
                   <span>/accounts/:userId/password</span>
                 </div>
                 <p class="endpoint-desc">
-                  Changes the user password after validating the current one.
+                  Changes password after validating current password.
                 </p>
                 <div class="pill-row">
-                  <span class="pill pill-auth">requireValidPassword</span>
-                  <span class="pill pill-req">currentPassword</span>
-                  <span class="pill pill-req">newPassword (≥ 8)</span>
+                  <span class="pill pill-auth">Shared: requireValidPassword</span>
+                  <span class="pill pill-req">Body: currentPassword</span>
+                  <span class="pill pill-req">Body: newPassword (≥ 8)</span>
                 </div>
-                <pre><code>POST /accounts/:userId/password
+                <pre><code>Request body
 {
-  "currentPassword": "old-password",
+  "currentPassword": "old-pass",
   "newPassword": "new-super-secure"
 }</code></pre>
+                <ul class="status-list">
+                  <li class="status-item">
+                    <span class="status-code ok">200</span>
+                    <span class="status-body">
+                      <code>{"success":true}</code>
+                    </span>
+                  </li>
+                  <li class="status-item">
+                    <span class="status-code err">400</span>
+                    <span class="status-body">
+                      Missing <code>password/currentPassword</code> (middleware):<br />
+                      <code>{"error":"password is required in request body"}</code><br />
+                      Missing <code>newPassword</code>:
+                      <code>{"error":"newPassword is required"}</code><br />
+                      Short <code>newPassword</code>:
+                      <code>{"error":"newPassword must be at least 8 characters"}</code>
+                    </span>
+                  </li>
+                  <li class="status-item">
+                    <span class="status-code err">401</span>
+                    <span class="status-body">
+                      Incorrect current password:
+                      <code>{"error":"invalid password"}</code>
+                    </span>
+                  </li>
+                </ul>
               </div>
 
-              <!-- Change displayName -->
+              <!-- POST /accounts/:userId/displayName -->
               <div class="card">
                 <div class="card-header">
                   <h3 class="card-title">Change display name</h3>
@@ -836,51 +1060,177 @@ GET / -&gt; "Hello World!"</code></pre>
                   <span>/accounts/:userId/displayName</span>
                 </div>
                 <p class="endpoint-desc">
-                  Updates the user-facing display name for this account.
+                  Updates <code>user.displayName</code>.
                 </p>
                 <div class="pill-row">
-                  <span class="pill pill-auth">requireValidPassword</span>
-                  <span class="pill pill-req">password</span>
-                  <span class="pill pill-req">displayName</span>
+                  <span class="pill pill-auth">Shared: requireValidPassword</span>
+                  <span class="pill pill-req">Body: password</span>
+                  <span class="pill pill-req">Body: displayName</span>
                 </div>
+                <pre><code>Request body
+{
+  "password": "current-pass",
+  "displayName": "New Name"
+}</code></pre>
+                <ul class="status-list">
+                  <li class="status-item">
+                    <span class="status-code ok">200</span>
+                    <span class="status-body">
+                      <code>{"user":{...publicUser}}</code>
+                    </span>
+                  </li>
+                  <li class="status-item">
+                    <span class="status-code err">400</span>
+                    <span class="status-body">
+                      From middleware:
+                      <code>{"error":"password is required in request body"}</code><br />
+                      Missing displayName:
+                      <code>{"error":"displayName is required"}</code>
+                    </span>
+                  </li>
+                  <li class="status-item">
+                    <span class="status-code err">401</span>
+                    <span class="status-body">
+                      Invalid password:
+                      <code>{"error":"invalid password"}</code>
+                    </span>
+                  </li>
+                </ul>
               </div>
 
-              <!-- Delete account -->
+              <!-- DELETE /accounts/:userId -->
               <div class="card">
                 <div class="card-header">
-                  <h3 class="card-title">Delete account (API)</h3>
+                  <h3 class="card-title">Delete account</h3>
                   <span class="badge badge-delete">DELETE</span>
                 </div>
                 <div class="endpoint-path">
                   <span>/accounts/:userId</span>
                 </div>
                 <p class="endpoint-desc">
-                  Deletes the user and cascades deletion to all owned teams, players, and matches.
+                  Deletes user and cascades deletion to all their teams, players and matches.
                 </p>
                 <div class="pill-row">
-                  <span class="pill pill-auth">requireValidPassword</span>
-                  <span class="pill pill-req">password</span>
-                  <span class="pill pill-safe">Cascade delete teams/matches</span>
+                  <span class="pill pill-auth">Shared: requireValidPassword</span>
+                  <span class="pill pill-req">Body: password</span>
+                  <span class="pill pill-safe">Cascade: deleteTeamCascade()</span>
                 </div>
+                <pre><code>Request body
+{
+  "password": "current-pass"
+}</code></pre>
+                <ul class="status-list">
+                  <li class="status-item">
+                    <span class="status-code ok">200</span>
+                    <span class="status-body">
+                      <code>{"success":true}</code>
+                    </span>
+                  </li>
+                  <li class="status-item">
+                    <span class="status-code err">400</span>
+                    <span class="status-body">
+                      From middleware:
+                      <code>{"error":"password is required in request body"}</code>
+                    </span>
+                  </li>
+                  <li class="status-item">
+                    <span class="status-code err">401</span>
+                    <span class="status-body">
+                      Invalid password:
+                      <code>{"error":"invalid password"}</code>
+                    </span>
+                  </li>
+                  <li class="status-item">
+                    <span class="status-code err">404</span>
+                    <span class="status-body">
+                      Very edge case (user missing after auth):
+                      <code>{"error":"user not found"}</code>
+                    </span>
+                  </li>
+                  <li class="status-item">
+                    <span class="status-code err">500</span>
+                    <span class="status-body">
+                      DB save error:
+                      <code>{"error":"Internal server error"}</code>
+                    </span>
+                  </li>
+                </ul>
               </div>
 
-              <!-- Delete via email link -->
+              <!-- GET /accounts/:userId -->
               <div class="card">
                 <div class="card-header">
-                  <h3 class="card-title">Delete account (email link)</h3>
+                  <h3 class="card-title">Get account</h3>
                   <span class="badge badge-get">GET</span>
+                </div>
+                <div class="endpoint-path">
+                  <span>/accounts/:userId</span>
+                </div>
+                <p class="endpoint-desc">
+                  Public view of a user (no password / reset fields).
+                </p>
+                <div class="pill-row">
+                  <span class="pill">No auth</span>
+                </div>
+                <ul class="status-list">
+                  <li class="status-item">
+                    <span class="status-code ok">200</span>
+                    <span class="status-body">
+                      <code>{"user":{...publicUser}}</code>
+                    </span>
+                  </li>
+                  <li class="status-item">
+                    <span class="status-code err">404</span>
+                    <span class="status-body">
+                      <code>{"error":"user not found"}</code>
+                    </span>
+                  </li>
+                </ul>
+              </div>
+
+              <!-- GET /emailDeleteAccount/:userId/:password -->
+              <div class="card">
+                <div class="card-header">
+                  <h3 class="card-title">Delete via email link</h3>
+                  <span class="badge badge-get">GET (HTML)</span>
                 </div>
                 <div class="endpoint-path">
                   <span>/emailDeleteAccount/:userId/:password</span>
                 </div>
                 <p class="endpoint-desc">
-                  HTML endpoint linked from email. If the link is valid, permanently deletes the
-                  account and related data.
+                  One-click account deletion from an emailed link, using userId and plain
+                  password in the URL.
                 </p>
                 <div class="pill-row">
-                  <span class="pill">HTML response</span>
-                  <span class="pill pill-safe">One-click deletion</span>
+                  <span class="pill">Response: HTML page</span>
+                  <span class="pill pill-safe">Cascade delete</span>
                 </div>
+                <ul class="status-list">
+                  <li class="status-item">
+                    <span class="status-code ok">200</span>
+                    <span class="status-body">
+                      Account deleted; HTML "Account Deleted" confirmation page.
+                    </span>
+                  </li>
+                  <li class="status-item">
+                    <span class="status-code err">404</span>
+                    <span class="status-body">
+                      User not found; HTML "User not found" page.
+                    </span>
+                  </li>
+                  <li class="status-item">
+                    <span class="status-code err">401</span>
+                    <span class="status-body">
+                      Password check fails; HTML "Invalid or expired link" page.
+                    </span>
+                  </li>
+                  <li class="status-item">
+                    <span class="status-code err">500</span>
+                    <span class="status-body">
+                      Error during cascade delete; HTML "Error" page.
+                    </span>
+                  </li>
+                </ul>
               </div>
             </div>
           </div>
@@ -891,15 +1241,11 @@ GET / -&gt; "Hello World!"</code></pre>
         <section>
           <div class="section-heading">
             <h2>Teams</h2>
-            <small>Per-user team management</small>
+            <small>Owned by a specific user</small>
           </div>
           <div class="section-body">
-            <p>
-              Teams are owned by a single user (<code>ownerId</code>). All read/write
-              endpoints validate ownership using <code>ensureUserAndTeam</code>.
-            </p>
-
             <div class="card-grid">
+              <!-- POST /users/:userId/teams -->
               <div class="card">
                 <div class="card-header">
                   <h3 class="card-title">Create team</h3>
@@ -909,16 +1255,50 @@ GET / -&gt; "Hello World!"</code></pre>
                   <span>/users/:userId/teams</span>
                 </div>
                 <p class="endpoint-desc">
-                  Creates a new team owned by the given user and attaches it to
-                  <code>user.teamIds</code>.
+                  Creates a new team for the given user.
                 </p>
                 <div class="pill-row">
-                  <span class="pill pill-auth">requireValidPassword</span>
-                  <span class="pill pill-req">password</span>
-                  <span class="pill">displayName (optional)</span>
+                  <span class="pill pill-auth">Shared: requireValidPassword</span>
+                  <span class="pill pill-req">Body: password</span>
+                  <span class="pill">Body: displayName (optional)</span>
                 </div>
+                <pre><code>Request body
+{
+  "password": "current-pass",
+  "displayName": "Varsity A"
+}</code></pre>
+                <ul class="status-list">
+                  <li class="status-item">
+                    <span class="status-code ok">201</span>
+                    <span class="status-body">
+                      <code>{"team":{...team}}</code>
+                    </span>
+                  </li>
+                  <li class="status-item">
+                    <span class="status-code err">400</span>
+                    <span class="status-body">
+                      From auth middleware:
+                      <code>{"error":"password is required in request body"}</code>
+                    </span>
+                  </li>
+                  <li class="status-item">
+                    <span class="status-code err">401</span>
+                    <span class="status-body">
+                      Invalid password:
+                      <code>{"error":"invalid password"}</code>
+                    </span>
+                  </li>
+                  <li class="status-item">
+                    <span class="status-code err">404</span>
+                    <span class="status-body">
+                      User not found:
+                      <code>{"error":"user not found"}</code>
+                    </span>
+                  </li>
+                </ul>
               </div>
 
+              <!-- GET /users/:userId/teams -->
               <div class="card">
                 <div class="card-header">
                   <h3 class="card-title">List teams</h3>
@@ -928,10 +1308,25 @@ GET / -&gt; "Hello World!"</code></pre>
                   <span>/users/:userId/teams</span>
                 </div>
                 <p class="endpoint-desc">
-                  Returns all teams owned by this user as public team objects.
+                  Lists all teams owned by this user.
                 </p>
+                <ul class="status-list">
+                  <li class="status-item">
+                    <span class="status-code ok">200</span>
+                    <span class="status-body">
+                      <code>{"teams":[{...team}, ...]}</code>
+                    </span>
+                  </li>
+                  <li class="status-item">
+                    <span class="status-code err">404</span>
+                    <span class="status-body">
+                      <code>{"error":"user not found"}</code>
+                    </span>
+                  </li>
+                </ul>
               </div>
 
+              <!-- GET /users/:userId/teams/:teamId -->
               <div class="card">
                 <div class="card-header">
                   <h3 class="card-title">Get team</h3>
@@ -941,10 +1336,38 @@ GET / -&gt; "Hello World!"</code></pre>
                   <span>/users/:userId/teams/:teamId</span>
                 </div>
                 <p class="endpoint-desc">
-                  Fetches a single team if it belongs to the given user.
+                  Gets a single team if the user owns it.
                 </p>
+                <div class="pill-row">
+                  <span class="pill pill-auth">Shared: ensureUserAndTeam</span>
+                </div>
+                <ul class="status-list">
+                  <li class="status-item">
+                    <span class="status-code ok">200</span>
+                    <span class="status-body">
+                      <code>{"team":{...team}}</code>
+                    </span>
+                  </li>
+                  <li class="status-item">
+                    <span class="status-code err">403</span>
+                    <span class="status-body">
+                      Team doesn't belong to user:
+                      <code>{"error":"forbidden: team does not belong to user"}</code>
+                    </span>
+                  </li>
+                  <li class="status-item">
+                    <span class="status-code err">404</span>
+                    <span class="status-body">
+                      User:
+                      <code>{"error":"user not found"}</code><br />
+                      or team:
+                      <code>{"error":"team not found"}</code>
+                    </span>
+                  </li>
+                </ul>
               </div>
 
+              <!-- PUT /users/:userId/teams/:teamId -->
               <div class="card">
                 <div class="card-header">
                   <h3 class="card-title">Update team</h3>
@@ -954,15 +1377,57 @@ GET / -&gt; "Hello World!"</code></pre>
                   <span>/users/:userId/teams/:teamId</span>
                 </div>
                 <p class="endpoint-desc">
-                  Updates the team display name. Ownership is required.
+                  Updates team <code>displayName</code>.
                 </p>
                 <div class="pill-row">
                   <span class="pill pill-auth">requireValidPassword</span>
-                  <span class="pill pill-req">password</span>
-                  <span class="pill">displayName</span>
+                  <span class="pill pill-auth">ensureUserAndTeam</span>
+                  <span class="pill">Body: displayName</span>
                 </div>
+                <pre><code>Request body
+{
+  "password": "current-pass",
+  "displayName": "New Team Name"
+}</code></pre>
+                <ul class="status-list">
+                  <li class="status-item">
+                    <span class="status-code ok">200</span>
+                    <span class="status-body">
+                      <code>{"team":{...team}}</code>
+                    </span>
+                  </li>
+                  <li class="status-item">
+                    <span class="status-code err">400</span>
+                    <span class="status-body">
+                      From middleware:
+                      <code>{"error":"password is required in request body"}</code>
+                    </span>
+                  </li>
+                  <li class="status-item">
+                    <span class="status-code err">401</span>
+                    <span class="status-body">
+                      Invalid password:
+                      <code>{"error":"invalid password"}</code>
+                    </span>
+                  </li>
+                  <li class="status-item">
+                    <span class="status-code err">403</span>
+                    <span class="status-body">
+                      <code>{"error":"forbidden: team does not belong to user"}</code>
+                    </span>
+                  </li>
+                  <li class="status-item">
+                    <span class="status-code err">404</span>
+                    <span class="status-body">
+                      User or team missing:<br />
+                      <code>{"error":"user not found"}</code> or
+                      <code>{"error":"team not found"}</code>
+                    </span>
+                  </li>
+                </ul>
               </div>
 
+              <!-- DELETE /users/:userId/teams/:teamId -->
               <div class="card">
                 <div class="card-header">
                   <h3 class="card-title">Delete team</h3>
@@ -972,12 +1437,50 @@ GET / -&gt; "Hello World!"</code></pre>
                   <span>/users/:userId/teams/:teamId</span>
                 </div>
                 <p class="endpoint-desc">
-                  Deletes the team and cascades to all players and matches belonging to it.
+                  Deletes team and cascades to players and matches.
                 </p>
                 <div class="pill-row">
                   <span class="pill pill-auth">requireValidPassword</span>
+                  <span class="pill pill-auth">ensureUserAndTeam</span>
                   <span class="pill pill-safe">deleteTeamCascade()</span>
                 </div>
+                <pre><code>Request body
+{
+  "password": "current-pass"
+}</code></pre>
+                <ul class="status-list">
+                  <li class="status-item">
+                    <span class="status-code ok">200</span>
+                    <span class="status-body">
+                      <code>{"success":true}</code>
+                    </span>
+                  </li>
+                  <li class="status-item">
+                    <span class="status-code err">400</span>
+                    <span class="status-body">
+                      <code>{"error":"password is required in request body"}</code>
+                    </span>
+                  </li>
+                  <li class="status-item">
+                    <span class="status-code err">401</span>
+                    <span class="status-body">
+                      <code>{"error":"invalid password"}</code>
+                    </span>
+                  </li>
+                  <li class="status-item">
+                    <span class="status-code err">403</span>
+                    <span class="status-body">
+                      <code>{"error":"forbidden: team does not belong to user"}</code>
+                    </span>
+                  </li>
+                  <li class="status-item">
+                    <span class="status-code err">404</span>
+                    <span class="status-body">
+                      <code>{"error":"user not found"}</code> or
+                      <code>{"error":"team not found"}</code>
+                    </span>
+                  </li>
+                </ul>
               </div>
             </div>
           </div>
@@ -988,15 +1491,11 @@ GET / -&gt; "Hello World!"</code></pre>
         <section>
           <div class="section-heading">
             <h2>Players</h2>
-            <small>Roster management per team</small>
+            <small>Roster per team</small>
           </div>
           <div class="section-body">
-            <p>
-              Players are scoped to a single team via <code>teamId</code>. They also keep
-              a <code>matchIds</code> map for future per-match linkage.
-            </p>
-
             <div class="card-grid">
+              <!-- POST /users/:userId/teams/:teamId/players -->
               <div class="card">
                 <div class="card-header">
                   <h3 class="card-title">Create player</h3>
@@ -1006,16 +1505,60 @@ GET / -&gt; "Hello World!"</code></pre>
                   <span>/users/:userId/teams/:teamId/players</span>
                 </div>
                 <p class="endpoint-desc">
-                  Adds a new player to the specified team.
+                  Adds a new player to a team.
                 </p>
                 <div class="pill-row">
                   <span class="pill pill-auth">requireValidPassword</span>
-                  <span class="pill pill-req">password</span>
-                  <span class="pill">displayName</span>
-                  <span class="pill">graduationYear (1900–2100)</span>
+                  <span class="pill pill-auth">ensureUserAndTeam</span>
+                  <span class="pill pill-req">Body: password</span>
+                  <span class="pill">Body: displayName</span>
+                  <span class="pill">Body: graduationYear (1900–2100)</span>
                 </div>
+                <pre><code>Request body
+{
+  "password": "current-pass",
+  "displayName": "Player Name",
+  "graduationYear": 2027
+}</code></pre>
+                <ul class="status-list">
+                  <li class="status-item">
+                    <span class="status-code ok">201</span>
+                    <span class="status-body">
+                      <code>{"player":{...player}}</code>
+                    </span>
+                  </li>
+                  <li class="status-item">
+                    <span class="status-code err">400</span>
+                    <span class="status-body">
+                      From middleware:
+                      <code>{"error":"password is required in request body"}</code><br />
+                      Invalid graduation year:
+                      <code>{"error":"graduationYear must be a valid year"}</code>
+                    </span>
+                  </li>
+                  <li class="status-item">
+                    <span class="status-code err">401</span>
+                    <span class="status-body">
+                      <code>{"error":"invalid password"}</code>
+                    </span>
+                  </li>
+                  <li class="status-item">
+                    <span class="status-code err">403</span>
+                    <span class="status-body">
+                      <code>{"error":"forbidden: team does not belong to user"}</code>
+                    </span>
+                  </li>
+                  <li class="status-item">
+                    <span class="status-code err">404</span>
+                    <span class="status-body">
+                      <code>{"error":"user not found"}</code> or
+                      <code>{"error":"team not found"}</code>
+                    </span>
+                  </li>
+                </ul>
               </div>
 
+              <!-- GET /users/:userId/teams/:teamId/players -->
               <div class="card">
                 <div class="card-header">
                   <h3 class="card-title">List players</h3>
@@ -1025,10 +1568,35 @@ GET / -&gt; "Hello World!"</code></pre>
                   <span>/users/:userId/teams/:teamId/players</span>
                 </div>
                 <p class="endpoint-desc">
-                  Returns all players in the team, as public player objects.
+                  Lists all players in the team.
                 </p>
+                <div class="pill-row">
+                  <span class="pill pill-auth">ensureUserAndTeam</span>
+                </div>
+                <ul class="status-list">
+                  <li class="status-item">
+                    <span class="status-code ok">200</span>
+                    <span class="status-body">
+                      <code>{"players":[{...player}, ...]}</code>
+                    </span>
+                  </li>
+                  <li class="status-item">
+                    <span class="status-code err">403</span>
+                    <span class="status-body">
+                      <code>{"error":"forbidden: team does not belong to user"}</code>
+                    </span>
+                  </li>
+                  <li class="status-item">
+                    <span class="status-code err">404</span>
+                    <span class="status-body">
+                      <code>{"error":"user not found"}</code> or
+                      <code>{"error":"team not found"}</code>
+                    </span>
+                  </li>
+                </ul>
               </div>
 
+              <!-- GET /users/:userId/teams/:teamId/players/:playerId -->
               <div class="card">
                 <div class="card-header">
                   <h3 class="card-title">Get player</h3>
@@ -1038,10 +1606,33 @@ GET / -&gt; "Hello World!"</code></pre>
                   <span>/users/:userId/teams/:teamId/players/:playerId</span>
                 </div>
                 <p class="endpoint-desc">
-                  Fetches a single player, ensuring they belong to the requested team.
+                  Fetches a single player by id within a team.
                 </p>
+                <div class="pill-row">
+                  <span class="pill pill-auth">ensureUserAndTeam</span>
+                </div>
+                <ul class="status-list">
+                  <li class="status-item">
+                    <span class="status-code ok">200</span>
+                    <span class="status-body">
+                      <code>{"player":{...player}}</code>
+                    </span>
+                  </li>
+                  <li class="status-item">
+                    <span class="status-code err">404</span>
+                    <span class="status-body">
+                      Ownership errors:
+                      <code>{"error":"user not found"}</code>,
+                      <code>{"error":"team not found"}</code>,
+                      <code>{"error":"forbidden: team does not belong to user"}</code><br />
+                      Player not in team:
+                      <code>{"error":"player not found in team"}</code>
+                    </span>
+                  </li>
+                </ul>
               </div>
 
+              <!-- PUT /users/:userId/teams/:teamId/players/:playerId -->
               <div class="card">
                 <div class="card-header">
                   <h3 class="card-title">Update player</h3>
@@ -1051,15 +1642,62 @@ GET / -&gt; "Hello World!"</code></pre>
                   <span>/users/:userId/teams/:teamId/players/:playerId</span>
                 </div>
                 <p class="endpoint-desc">
-                  Updates a player's display name and/or graduation year.
+                  Updates player name and/or graduation year.
                 </p>
                 <div class="pill-row">
                   <span class="pill pill-auth">requireValidPassword</span>
-                  <span class="pill">displayName</span>
-                  <span class="pill">graduationYear</span>
+                  <span class="pill pill-auth">ensureUserAndTeam</span>
+                  <span class="pill">Body: displayName</span>
+                  <span class="pill">Body: graduationYear</span>
                 </div>
+                <pre><code>Request body
+{
+  "password": "current-pass",
+  "displayName": "New Player Name",
+  "graduationYear": 2026
+}</code></pre>
+                <ul class="status-list">
+                  <li class="status-item">
+                    <span class="status-code ok">200</span>
+                    <span class="status-body">
+                      <code>{"player":{...player}}</code>
+                    </span>
+                  </li>
+                  <li class="status-item">
+                    <span class="status-code err">400</span>
+                    <span class="status-body">
+                      Missing password:
+                      <code>{"error":"password is required in request body"}</code><br />
+                      Invalid graduation year:
+                      <code>{"error":"graduationYear must be a valid year"}</code>
+                    </span>
+                  </li>
+                  <li class="status-item">
+                    <span class="status-code err">401</span>
+                    <span class="status-body">
+                      <code>{"error":"invalid password"}</code>
+                    </span>
+                  </li>
+                  <li class="status-item">
+                    <span class="status-code err">403</span>
+                    <span class="status-body">
+                      <code>{"error":"forbidden: team does not belong to user"}</code>
+                    </span>
+                  </li>
+                  <li class="status-item">
+                    <span class="status-code err">404</span>
+                    <span class="status-body">
+                      User / team:
+                      <code>{"error":"user not found"}</code>,
+                      <code>{"error":"team not found"}</code><br />
+                      Player not in team:
+                      <code>{"error":"player not found in team"}</code>
+                    </span>
+                  </li>
+                </ul>
               </div>
 
+              <!-- DELETE /users/:userId/teams/:teamId/players/:playerId -->
               <div class="card">
                 <div class="card-header">
                   <h3 class="card-title">Delete player</h3>
@@ -1069,13 +1707,53 @@ GET / -&gt; "Hello World!"</code></pre>
                   <span>/users/:userId/teams/:teamId/players/:playerId</span>
                 </div>
                 <p class="endpoint-desc">
-                  Removes the player from the team and from all matches'
+                  Removes a player and their entries from all team matches'
                   <code>perPlayerData</code>.
                 </p>
                 <div class="pill-row">
                   <span class="pill pill-auth">requireValidPassword</span>
-                  <span class="pill pill-safe">cleanup perPlayerData</span>
+                  <span class="pill pill-auth">ensureUserAndTeam</span>
+                  <span class="pill pill-safe">Cleans perPlayerData</span>
                 </div>
+                <pre><code>Request body
+{
+  "password": "current-pass"
+}</code></pre>
+                <ul class="status-list">
+                  <li class="status-item">
+                    <span class="status-code ok">200</span>
+                    <span class="status-body">
+                      <code>{"success":true}</code>
+                    </span>
+                  </li>
+                  <li class="status-item">
+                    <span class="status-code err">400</span>
+                    <span class="status-body">
+                      <code>{"error":"password is required in request body"}</code>
+                    </span>
+                  </li>
+                  <li class="status-item">
+                    <span class="status-code err">401</span>
+                    <span class="status-body">
+                      <code>{"error":"invalid password"}</code>
+                    </span>
+                  </li>
+                  <li class="status-item">
+                    <span class="status-code err">403</span>
+                    <span class="status-body">
+                      <code>{"error":"forbidden: team does not belong to user"}</code>
+                    </span>
+                  </li>
+                  <li class="status-item">
+                    <span class="status-code err">404</span>
+                    <span class="status-body">
+                      Ownership errors or missing player:<br />
+                      <code>{"error":"user not found"}</code>,
+                      <code>{"error":"team not found"}</code>,
+                      <code>{"error":"player not found in team"}</code>
+                    </span>
+                  </li>
+                </ul>
               </div>
             </div>
           </div>
@@ -1086,15 +1764,11 @@ GET / -&gt; "Hello World!"</code></pre>
         <section>
           <div class="section-heading">
             <h2>Matches</h2>
-            <small>Match metadata &amp; per-team lists</small>
+            <small>Per-team match records</small>
           </div>
           <div class="section-body">
-            <p>
-              Matches are created for a team and store date, opposing team name, a free-form
-              comment, and per-player game data.
-            </p>
-
             <div class="card-grid">
+              <!-- POST /users/:userId/teams/:teamId/matches -->
               <div class="card">
                 <div class="card-header">
                   <h3 class="card-title">Create match</h3>
@@ -1104,17 +1778,59 @@ GET / -&gt; "Hello World!"</code></pre>
                   <span>/users/:userId/teams/:teamId/matches</span>
                 </div>
                 <p class="endpoint-desc">
-                  Creates a new match and initializes per-player game slots (1–3) with default
-                  values.
+                  Creates a new match and initializes per-player game slots (1–3).
                 </p>
                 <div class="pill-row">
                   <span class="pill pill-auth">requireValidPassword</span>
-                  <span class="pill">date (Unix ms, optional)</span>
-                  <span class="pill">opposingTeamName</span>
-                  <span class="pill">comment</span>
+                  <span class="pill pill-auth">ensureUserAndTeam</span>
+                  <span class="pill">Body: date (number, optional)</span>
+                  <span class="pill">Body: opposingTeamName (string)</span>
+                  <span class="pill">Body: comment (string, optional)</span>
                 </div>
+                <pre><code>Request body
+{
+  "password": "current-pass",
+  "date": 1736291763000,
+  "opposingTeamName": "Rival High",
+  "comment": "Season opener"
+}</code></pre>
+                <ul class="status-list">
+                  <li class="status-item">
+                    <span class="status-code ok">201</span>
+                    <span class="status-body">
+                      <code>{"match":{...match}}</code>
+                    </span>
+                  </li>
+                  <li class="status-item">
+                    <span class="status-code err">400</span>
+                    <span class="status-body">
+                      Missing password:
+                      <code>{"error":"password is required in request body"}</code>
+                    </span>
+                  </li>
+                  <li class="status-item">
+                    <span class="status-code err">401</span>
+                    <span class="status-body">
+                      <code>{"error":"invalid password"}</code>
+                    </span>
+                  </li>
+                  <li class="status-item">
+                    <span class="status-code err">403</span>
+                    <span class="status-body">
+                      <code>{"error":"forbidden: team does not belong to user"}</code>
+                    </span>
+                  </li>
+                  <li class="status-item">
+                    <span class="status-code err">404</span>
+                    <span class="status-body">
+                      <code>{"error":"user not found"}</code> or
+                      <code>{"error":"team not found"}</code>
+                    </span>
+                  </li>
+                </ul>
               </div>
 
+              <!-- GET /users/:userId/teams/:teamId/matches -->
               <div class="card">
                 <div class="card-header">
                   <h3 class="card-title">List matches</h3>
@@ -1124,10 +1840,35 @@ GET / -&gt; "Hello World!"</code></pre>
                   <span>/users/:userId/teams/:teamId/matches</span>
                 </div>
                 <p class="endpoint-desc">
-                  Returns all matches for the team as stored in <code>matches</code>.
+                  Lists all matches belonging to a team.
                 </p>
+                <div class="pill-row">
+                  <span class="pill pill-auth">ensureUserAndTeam</span>
+                </div>
+                <ul class="status-list">
+                  <li class="status-item">
+                    <span class="status-code ok">200</span>
+                    <span class="status-body">
+                      <code>{"matches":[{...match}, ...]}</code>
+                    </span>
+                  </li>
+                  <li class="status-item">
+                    <span class="status-code err">403</span>
+                    <span class="status-body">
+                      <code>{"error":"forbidden: team does not belong to user"}</code>
+                    </span>
+                  </li>
+                  <li class="status-item">
+                    <span class="status-code err">404</span>
+                    <span class="status-body">
+                      <code>{"error":"user not found"}</code> or
+                      <code>{"error":"team not found"}</code>
+                    </span>
+                  </li>
+                </ul>
               </div>
 
+              <!-- GET /users/:userId/teams/:teamId/matches/:matchId -->
               <div class="card">
                 <div class="card-header">
                   <h3 class="card-title">Get match</h3>
@@ -1137,10 +1878,33 @@ GET / -&gt; "Hello World!"</code></pre>
                   <span>/users/:userId/teams/:teamId/matches/:matchId</span>
                 </div>
                 <p class="endpoint-desc">
-                  Fetch a single match, ensuring it belongs to the specified team.
+                  Fetches a single match within a team.
                 </p>
+                <div class="pill-row">
+                  <span class="pill pill-auth">ensureUserAndTeam</span>
+                </div>
+                <ul class="status-list">
+                  <li class="status-item">
+                    <span class="status-code ok">200</span>
+                    <span class="status-body">
+                      <code>{"match":{...match}}</code>
+                    </span>
+                  </li>
+                  <li class="status-item">
+                    <span class="status-code err">404</span>
+                    <span class="status-body">
+                      Ownership errors:
+                      <code>{"error":"user not found"}</code>,
+                      <code>{"error":"team not found"}</code>,
+                      <code>{"error":"forbidden: team does not belong to user"}</code><br />
+                      Match not in team:
+                      <code>{"error":"match not found in team"}</code>
+                    </span>
+                  </li>
+                </ul>
               </div>
 
+              <!-- PUT /users/:userId/teams/:teamId/matches/:matchId -->
               <div class="card">
                 <div class="card-header">
                   <h3 class="card-title">Update match</h3>
@@ -1150,16 +1914,61 @@ GET / -&gt; "Hello World!"</code></pre>
                   <span>/users/:userId/teams/:teamId/matches/:matchId</span>
                 </div>
                 <p class="endpoint-desc">
-                  Updates match metadata: date, opposing team name, comment.
+                  Updates <code>date</code>, <code>opposingTeamName</code> and
+                  <code>comment</code>.
                 </p>
                 <div class="pill-row">
                   <span class="pill pill-auth">requireValidPassword</span>
-                  <span class="pill">date</span>
-                  <span class="pill">opposingTeamName</span>
-                  <span class="pill">comment</span>
+                  <span class="pill pill-auth">ensureUserAndTeam</span>
+                  <span class="pill">Body: date (optional)</span>
+                  <span class="pill">Body: opposingTeamName (optional)</span>
+                  <span class="pill">Body: comment (optional)</span>
                 </div>
+                <pre><code>Request body
+{
+  "password": "current-pass",
+  "date": 1736291763000,
+  "opposingTeamName": "Rival High 2",
+  "comment": "Rescheduled"
+}</code></pre>
+                <ul class="status-list">
+                  <li class="status-item">
+                    <span class="status-code ok">200</span>
+                    <span class="status-body">
+                      <code>{"match":{...match}}</code>
+                    </span>
+                  </li>
+                  <li class="status-item">
+                    <span class="status-code err">400</span>
+                    <span class="status-body">
+                      <code>{"error":"password is required in request body"}</code>
+                    </span>
+                  </li>
+                  <li class="status-item">
+                    <span class="status-code err">401</span>
+                    <span class="status-body">
+                      <code>{"error":"invalid password"}</code>
+                    </span>
+                  </li>
+                  <li class="status-item">
+                    <span class="status-code err">403</span>
+                    <span class="status-body">
+                      <code>{"error":"forbidden: team does not belong to user"}</code>
+                    </span>
+                  </li>
+                  <li class="status-item">
+                    <span class="status-code err">404</span>
+                    <span class="status-body">
+                      Ownership errors or missing match:<br />
+                      <code>{"error":"user not found"}</code>,
+                      <code>{"error":"team not found"}</code>,
+                      <code>{"error":"match not found in team"}</code>
+                    </span>
+                  </li>
+                </ul>
               </div>
 
+              <!-- DELETE /users/:userId/teams/:teamId/matches/:matchId -->
               <div class="card">
                 <div class="card-header">
                   <h3 class="card-title">Delete match</h3>
@@ -1169,35 +1978,69 @@ GET / -&gt; "Hello World!"</code></pre>
                   <span>/users/:userId/teams/:teamId/matches/:matchId</span>
                 </div>
                 <p class="endpoint-desc">
-                  Deletes a match and removes its id from <code>team.matchIds</code>.
+                  Deletes a match and removes it from
+                  <code>team.matchIds</code>.
                 </p>
                 <div class="pill-row">
                   <span class="pill pill-auth">requireValidPassword</span>
-                  <span class="pill pill-safe">team.matchIds cleanup</span>
+                  <span class="pill pill-auth">ensureUserAndTeam</span>
                 </div>
+                <pre><code>Request body
+{
+  "password": "current-pass"
+}</code></pre>
+                <ul class="status-list">
+                  <li class="status-item">
+                    <span class="status-code ok">200</span>
+                    <span class="status-body">
+                      <code>{"success":true}</code>
+                    </span>
+                  </li>
+                  <li class="status-item">
+                    <span class="status-code err">400</span>
+                    <span class="status-body">
+                      <code>{"error":"password is required in request body"}</code>
+                    </span>
+                  </li>
+                  <li class="status-item">
+                    <span class="status-code err">401</span>
+                    <span class="status-body">
+                      <code>{"error":"invalid password"}</code>
+                    </span>
+                  </li>
+                  <li class="status-item">
+                    <span class="status-code err">403</span>
+                    <span class="status-body">
+                      <code>{"error":"forbidden: team does not belong to user"}</code>
+                    </span>
+                  </li>
+                  <li class="status-item">
+                    <span class="status-code err">404</span>
+                    <span class="status-body">
+                      <code>{"error":"user not found"}</code>,
+                      <code>{"error":"team not found"}</code>,
+                      <code>{"error":"match not found in team"}</code>
+                    </span>
+                  </li>
+                </ul>
               </div>
             </div>
           </div>
         </section>
 
-        <!-- PER PLAYER DATA -->
+        <!-- PER-PLAYER MATCH DATA -->
         <div id="per-player" class="anchor"></div>
         <section>
           <div class="section-heading">
             <h2>Per-player match data</h2>
-            <small>Game-level stats per player</small>
+            <small>Game-level stats</small>
           </div>
           <div class="section-body">
-            <p>
-              Each match maintains a <code>perPlayerData</code> object keyed by
-              <code>playerId</code>. Each player has 3 game slots, indexed
-              <code>1</code>–<code>3</code>.
-            </p>
-
             <div class="card-grid">
+              <!-- PUT /users/:userId/teams/:teamId/matches/:matchId/players/:playerId/games/:gameIndex -->
               <div class="card">
                 <div class="card-header">
-                  <h3 class="card-title">Update a player game</h3>
+                  <h3 class="card-title">Update a single game</h3>
                   <span class="badge badge-put">PUT</span>
                 </div>
                 <div class="endpoint-path">
@@ -1206,24 +2049,66 @@ GET / -&gt; "Hello World!"</code></pre>
                   >
                 </div>
                 <p class="endpoint-desc">
-                  Sets the stats for a single game (1–3) for a given player in a given match.
+                  Updates game stats for a specific player in a specific match, game indices
+                  1–3.
                 </p>
                 <div class="pill-row">
                   <span class="pill pill-auth">requireValidPassword</span>
-                  <span class="pill pill-req">gameIndex ∈ {1,2,3}</span>
-                  <span class="pill">Wood (number)</span>
-                  <span class="pill">Score (number)</span>
-                  <span class="pill">isVarsity (boolean)</span>
+                  <span class="pill pill-auth">ensureUserAndTeam</span>
+                  <span class="pill pill-req">Path: gameIndex ∈ {1,2,3}</span>
+                  <span class="pill">Body: Wood (number)</span>
+                  <span class="pill">Body: Score (number)</span>
+                  <span class="pill">Body: isVarsity (boolean)</span>
                 </div>
-                <pre><code>PUT /users/:userId/teams/:teamId/matches/:matchId/players/:playerId/games/1
+                <pre><code>Request body
 {
-  "password": "current-password",
+  "password": "current-pass",
   "Wood": 10,
   "Score": 178,
   "isVarsity": true
 }</code></pre>
+                <ul class="status-list">
+                  <li class="status-item">
+                    <span class="status-code ok">200</span>
+                    <span class="status-body">
+                      <code>{"playerGame":{"Wood":10,"Score":178,"isVarsity":true}}</code>
+                    </span>
+                  </li>
+                  <li class="status-item">
+                    <span class="status-code err">400</span>
+                    <span class="status-body">
+                      Missing password:
+                      <code>{"error":"password is required in request body"}</code><br />
+                      Invalid <code>gameIndex</code>:
+                      <code>{"error":"gameIndex must be 1, 2 or 3"}</code>
+                    </span>
+                  </li>
+                  <li class="status-item">
+                    <span class="status-code err">401</span>
+                    <span class="status-body">
+                      <code>{"error":"invalid password"}</code>
+                    </span>
+                  </li>
+                  <li class="status-item">
+                    <span class="status-code err">403</span>
+                    <span class="status-body">
+                      <code>{"error":"forbidden: team does not belong to user"}</code>
+                    </span>
+                  </li>
+                  <li class="status-item">
+                    <span class="status-code err">404</span>
+                    <span class="status-body">
+                      Missing user/team/match/player:<br />
+                      <code>{"error":"user not found"}</code>,
+                      <code>{"error":"team not found"}</code>,
+                      <code>{"error":"match not found in team"}</code>,
+                      <code>{"error":"player not found in team"}</code>
+                    </span>
+                  </li>
+                </ul>
               </div>
 
+              <!-- GET /users/:userId/teams/:teamId/matches/:matchId/players/:playerId -->
               <div class="card">
                 <div class="card-header">
                   <h3 class="card-title">Get per-player data</h3>
@@ -1235,12 +2120,30 @@ GET / -&gt; "Hello World!"</code></pre>
                   >
                 </div>
                 <p class="endpoint-desc">
-                  Returns the <code>perPlayerData</code> structure for a player in a given
-                  match. Missing game slots are filled with default 0/false values.
+                  Returns the <code>perPlayerData</code> object for a player in a match.
+                  Missing games are filled with default zero values.
                 </p>
                 <div class="pill-row">
-                  <span class="pill pill-safe">Fully populated games 1–3</span>
+                  <span class="pill pill-auth">ensureUserAndTeam</span>
                 </div>
+                <ul class="status-list">
+                  <li class="status-item">
+                    <span class="status-code ok">200</span>
+                    <span class="status-body">
+                      <code>{"perPlayerData":{"games":{"1":{...},"2":{...},"3":{...}}}}</code>
+                    </span>
+                  </li>
+                  <li class="status-item">
+                    <span class="status-code err">404</span>
+                    <span class="status-body">
+                      Ownership or match errors:<br />
+                      <code>{"error":"user not found"}</code>,
+                      <code>{"error":"team not found"}</code>,
+                      <code>{"error":"forbidden: team does not belong to user"}</code>,
+                      <code>{"error":"match not found in team"}</code>
+                    </span>
+                  </li>
+                </ul>
               </div>
             </div>
           </div>
@@ -1251,73 +2154,137 @@ GET / -&gt; "Hello World!"</code></pre>
         <section>
           <div class="section-heading">
             <h2>Password reset flow</h2>
-            <small>Email-based reset with token expiry</small>
+            <small>Token-based via email</small>
           </div>
           <div class="section-body">
-            <p>
-              Password reset uses a UUID token stored on the user object with a 1-hour expiry.
-              The flow is:
-            </p>
-            <ol class="small muted">
-              <li>User submits email to <code>POST /requestPassword</code>.</li>
-              <li>
-                Backend generates <code>resetToken</code>, stores it on the user, and sends an
-                email with a link to <code>GET /resetPassword/:token</code>.
-              </li>
-              <li>The HTML form POSTs back to <code>/resetPassword/:token</code>.</li>
-            </ol>
-
             <div class="card-grid">
+              <!-- POST /requestPassword -->
               <div class="card">
                 <div class="card-header">
-                  <h3 class="card-title">Request password reset</h3>
+                  <h3 class="card-title">Request reset link</h3>
                   <span class="badge badge-post">POST</span>
                 </div>
                 <div class="endpoint-path">
                   <span>/requestPassword</span>
                 </div>
                 <p class="endpoint-desc">
-                  Idempotent: always returns success to avoid leaking whether an email exists.
+                  Generates a reset token and sends an email. Response does not reveal whether
+                  an account exists.
                 </p>
                 <div class="pill-row">
-                  <span class="pill pill-req">email</span>
+                  <span class="pill pill-req">Body: email</span>
                   <span class="pill pill-safe">No account enumeration</span>
                 </div>
+                <pre><code>Request body
+{
+  "email": "user@example.com"
+}</code></pre>
+                <ul class="status-list">
+                  <li class="status-item">
+                    <span class="status-code ok">200</span>
+                    <span class="status-body">
+                      Whether or not the email exists:<br />
+                      <code>{"success":true,"message":"If an account with that email exists, a reset link has been sent."}</code>
+                    </span>
+                  </li>
+                  <li class="status-item">
+                    <span class="status-code err">400</span>
+                    <span class="status-body">
+                      <code>{"error":"email is required"}</code>
+                    </span>
+                  </li>
+                  <li class="status-item">
+                    <span class="status-code err">500</span>
+                    <span class="status-body">
+                      <code>{"error":"Internal server error"}</code>
+                    </span>
+                  </li>
+                </ul>
               </div>
 
+              <!-- GET /resetPassword/:token -->
               <div class="card">
                 <div class="card-header">
-                  <h3 class="card-title">Show reset form</h3>
+                  <h3 class="card-title">Show reset form (HTML)</h3>
                   <span class="badge badge-get">GET</span>
                 </div>
                 <div class="endpoint-path">
                   <span>/resetPassword/:token</span>
                 </div>
                 <p class="endpoint-desc">
-                  Renders a modern HTML page with a password reset form. If token is invalid or
-                  expired, shows an error page.
+                  Renders an HTML form for entering a new password if token is valid and not
+                  expired.
                 </p>
                 <div class="pill-row">
-                  <span class="pill">HTML response</span>
+                  <span class="pill">Response: HTML</span>
                   <span class="pill">Token expiry: 1 hour</span>
                 </div>
+                <ul class="status-list">
+                  <li class="status-item">
+                    <span class="status-code ok">200</span>
+                    <span class="status-body">
+                      HTML page with password + confirmation fields and script that POSTs to
+                      this same URL.
+                    </span>
+                  </li>
+                  <li class="status-item">
+                    <span class="status-code err">404</span>
+                    <span class="status-body">
+                      Token invalid/expired: HTML "Invalid or Expired Link" page.
+                    </span>
+                  </li>
+                </ul>
               </div>
 
+              <!-- POST /resetPassword/:token -->
               <div class="card">
                 <div class="card-header">
-                  <h3 class="card-title">Handle reset submission</h3>
+                  <h3 class="card-title">Submit new password</h3>
                   <span class="badge badge-post">POST</span>
                 </div>
                 <div class="endpoint-path">
                   <span>/resetPassword/:token</span>
                 </div>
                 <p class="endpoint-desc">
-                  Validates token + expiry, hashes the new password, and clears the token.
+                  Resets password if token is still valid, then clears token &amp; expiry.
                 </p>
                 <div class="pill-row">
-                  <span class="pill pill-req">password (≥ 8)</span>
-                  <span class="pill pill-safe">resetToken cleared</span>
+                  <span class="pill pill-req">Body: password (≥ 8)</span>
                 </div>
+                <pre><code>Request body
+{
+  "password": "new-super-secure"
+}</code></pre>
+                <ul class="status-list">
+                  <li class="status-item">
+                    <span class="status-code ok">200</span>
+                    <span class="status-body">
+                      <code>{"success":true,"message":"Password has been reset successfully"}</code>
+                    </span>
+                  </li>
+                  <li class="status-item">
+                    <span class="status-code err">400</span>
+                    <span class="status-body">
+                      Missing password:
+                      <code>{"error":"password is required"}</code><br />
+                      Short password:
+                      <code>{"error":"password must be at least 8 characters"}</code>
+                    </span>
+                  </li>
+                  <li class="status-item">
+                    <span class="status-code err">404</span>
+                    <span class="status-body">
+                      Invalid/expired token:
+                      <code>{"error":"Invalid or expired reset link"}</code>
+                    </span>
+                  </li>
+                  <li class="status-item">
+                    <span class="status-code err">500</span>
+                    <span class="status-body">
+                      <code>{"error":"Internal server error"}</code>
+                    </span>
+                  </li>
+                </ul>
               </div>
             </div>
           </div>
@@ -1328,45 +2295,84 @@ GET / -&gt; "Hello World!"</code></pre>
         <section>
           <div class="section-heading">
             <h2>Miscellaneous</h2>
-            <small>Utility &amp; diagnostic endpoints</small>
+            <small>Healthcheck &amp; test email</small>
           </div>
           <div class="section-body">
             <div class="card-grid">
+              <!-- GET / -->
               <div class="card">
                 <div class="card-header">
-                  <h3 class="card-title">Health check</h3>
+                  <h3 class="card-title">Health / root</h3>
                   <span class="badge badge-get">GET</span>
                 </div>
                 <div class="endpoint-path">
                   <span>/</span>
                 </div>
                 <p class="endpoint-desc">
-                  Simple test route returning <code>"Hello World!"</code>.
+                  Simple root endpoint for sanity checks.
                 </p>
+                <ul class="status-list">
+                  <li class="status-item">
+                    <span class="status-code ok">200</span>
+                    <span class="status-body">
+                      Body (text):
+                      <code>Hello World!</code>
+                    </span>
+                  </li>
+                </ul>
               </div>
 
+              <!-- POST /test/send-email -->
               <div class="card">
                 <div class="card-header">
-                  <h3 class="card-title">Test email</h3>
+                  <h3 class="card-title">Test: send welcome email</h3>
                   <span class="badge badge-post">POST</span>
                 </div>
                 <div class="endpoint-path">
                   <span>/test/send-email</span>
                 </div>
                 <p class="endpoint-desc">
-                  Sends a test welcome email using <code>sendWelcomeEmail</code> with a
-                  temporary user/password.
+                  Diagnostics-only endpoint to trigger <code>sendWelcomeEmail</code> with a
+                  temporary user id and password.
                 </p>
                 <div class="pill-row">
-                  <span class="pill pill-req">email</span>
-                  <span class="pill">For diagnostics only</span>
+                  <span class="pill pill-req">Body: email</span>
                 </div>
+                <pre><code>Request body
+{
+  "email": "someone@example.com"
+}</code></pre>
+                <ul class="status-list">
+                  <li class="status-item">
+                    <span class="status-code ok">200</span>
+                    <span class="status-body">
+                      <code>{
+  "success": true,
+  "message": "Email sent to someone@example.com",
+  "messageId": "..." // if available
+}</code>
+                    </span>
+                  </li>
+                  <li class="status-item">
+                    <span class="status-code err">400</span>
+                    <span class="status-body">
+                      <code>{"error":"email is required"}</code>
+                    </span>
+                  </li>
+                  <li class="status-item">
+                    <span class="status-code err">500</span>
+                    <span class="status-body">
+                      <code>{"success":false,"error":"&lt;mailer error message&gt;"}</code>
+                    </span>
+                  </li>
+                </ul>
               </div>
             </div>
 
             <p class="small muted" style="margin-top: 18px;">
-              All JSON endpoints respect a simple CORS setup and accept/return
-              <code>application/json</code>.
+              All JSON endpoints expect <code>Content-Type: application/json</code> and return
+              JSON bodies as shown above. Errors are not localized and are suitable for debug
+              displays or mapping to UI messages.
             </p>
           </div>
         </section>
